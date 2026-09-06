@@ -1,0 +1,48 @@
+[project]
+name = "compute-prereg-mcp"
+version = "0.1.0"
+description = "Compute preregistration engine: estimate -> preregister -> broker -> confirm -> execute -> reconcile, exposed as a tiered MCP server."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Tarush Gupta" }]
+dependencies = [
+    "mcp>=1.2",
+    "pydantic>=2.7",
+    "cryptography>=42",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+# FakeTensor + FlopCounterMode tracing. Without it the estimator uses the analytic path.
+torch = ["torch>=2.4"]
+# Provider adapters. Each is imported lazily; missing packages disable that adapter.
+skypilot = ["skypilot>=0.8"]
+modal = ["modal>=0.70"]
+all = ["torch>=2.4", "skypilot>=0.8", "modal>=0.70"]
+
+[project.scripts]
+compute-prereg = "compute_prereg.cli:main"
+compute-prereg-mcp = "compute_prereg.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["compute_prereg"]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8",
+    "pytest-asyncio>=0.24",
+    "torch>=2.4",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"

@@ -1,0 +1,18 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Runtime state (default data dir is ~/.compute-prereg; keep any local copies out)
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.compute-prereg/
+.pytest_cache/
+.ruff_cache/
